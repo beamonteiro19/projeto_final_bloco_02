@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { Produto } from '../entities/produto.entity';
 import { ProdutoService } from '../services/produto.service';
 
@@ -18,14 +29,21 @@ export class ProdutoController {
     return this.produtoService.findById(id);
   }
 
- 
- @Get('/nome/:nome')
-@HttpCode(HttpStatus.OK)
-findByProductName(@Param('nome') produto: string): Promise<Produto[]> {
-  return this.produtoService.findByProductName(produto);
-}
+  @Get('/nome/:nome')
+  @HttpCode(HttpStatus.OK)
+  findByProductName(@Param('nome') produto: string): Promise<Produto[]> {
+    return this.produtoService.findByProductName(produto);
+  }
 
-@Post()
+  @Get('/validade/:dias')
+  @HttpCode(HttpStatus.OK)
+  proximoAVencer(
+    @Param('dias', ParseIntPipe) dias: number,
+  ): Promise<Produto[]> {
+    return this.produtoService.proximoAVencer(dias);
+  }
+
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   create(@Body() produto: Produto): Promise<Produto> {
     return this.produtoService.create(produto);
@@ -42,5 +60,4 @@ findByProductName(@Param('nome') produto: string): Promise<Produto[]> {
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.produtoService.delete(id);
   }
-
 }

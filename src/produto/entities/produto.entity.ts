@@ -18,10 +18,14 @@ export class Produto {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   preco: number;
 
-  @Column({ type: 'int'})
+  @Column({ type: 'int' })
   estoque: number;
 
-  @ManyToOne(() => Categoria, (categoria) => categoria.produtos, { onDelete: 'CASCADE' })
-  categoria: Categoria;
+  @Column({ type: 'date', nullable: false })
+  data_validade: Date;
 
+  @ManyToOne(() => Categoria, (categoria) => categoria.produtos, {
+    onDelete: 'CASCADE',
+  })
+  categoria: Categoria;
 }

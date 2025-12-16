@@ -37,6 +37,19 @@ export class CategoriaService {
     });
   }
 
+  async relatorioCategorias(): Promise<any[]> {
+  const categorias = await this.categoriaRepository.find({
+    relations: ['produtos'],
+  });
+
+  return categorias.map((categoria) => ({
+    id: categoria.id,
+    tipo: categoria.tipo,
+    restricao: categoria.restricao,
+    quantidade_produtos: categoria.produtos.length,
+  }));
+}
+
   async create(categoria: Categoria): Promise<Categoria> {
     return await this.categoriaRepository.save(categoria);
   }

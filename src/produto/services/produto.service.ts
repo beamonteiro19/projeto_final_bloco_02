@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { Between, ILike, Repository } from 'typeorm';
 import { Produto } from '../entities/produto.entity';
 
 @Injectable()
@@ -29,6 +29,18 @@ export class ProdutoService {
     return await this.produtoRepository.find({
       where: {
         nome_produto: ILike(`%${nome_produto}`),
+      },
+    });
+  }
+ 
+   async proximoAVencer(dias: number): Promise<Produto[]> {
+    const hoje = new Date();
+    const limite = new Date();
+    limite.setDate(hoje.getDate() + dias);
+
+    return await this.produtoRepository.find({
+      where: {
+        data_validade: Between(hoje, limite),
       },
     });
   }

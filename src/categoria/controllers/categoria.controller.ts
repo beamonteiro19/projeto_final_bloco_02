@@ -23,6 +23,12 @@ export class CategoriaController {
     return this.categoriaService.findAll();
   }
 
+   @Get('/relatorio')
+  @HttpCode(HttpStatus.OK)
+  relatorioCategorias() {
+    return this.categoriaService.relatorioCategorias();
+  }
+
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   findById(@Param('id', ParseIntPipe) id: number): Promise<Categoria> {
